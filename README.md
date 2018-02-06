@@ -16,8 +16,8 @@ fakeSplash is an attempt to display what's happening with your enrollment trigge
 - Upload the script "setAppLoadingMessage" to your JSS 
   - set priority to before
 - Upload the script "buildBanner" to your JSS and set priority to before
-  - set priority to before
-  - set parameter label for parameter 4 to "App Name" 
+  - Set priority to before
+  - Set parameter label for parameter 4 to "App Name" 
 - Policy Creation
   - I number policies because they are executed in alphabetical order
   - I scope the policies to departments set in the prestage enrollment
@@ -27,4 +27,23 @@ fakeSplash is an attempt to display what's happening with your enrollment trigge
   - Installs the fakesplash.dmg that you created with composer
   - Run the script setAppLoadingMessage 
     - This sets our initial policy banner as soon as possible
-    
+- Other Policies
+  - Used to install apps, whatever else you want to do to a new computer
+  - Name with number in order of what you want to run 
+    - alphabetical order, so policy 125 runs before policy 20
+  - Policies triggered by Enrollment Complete and execution frequency of Ongoing
+  - Package for whatever software you are installing
+  - Under Scripts, run the buildBanner script
+    - Set to execute Before
+    - The parameter given under App Name must match the image you put in the fakesplash folder
+      - This name will also be used in the banner
+    - If this script is not set for a policy, the banner from the previous policy will remain on the screen while the current policy is run
+- Final Policy
+  - Name the policy "999 Reboot"
+  - Triggered by enrollment complete and ongoing frequency
+  - Under maintenance, update inventory
+  - Under files and processes, execute command "rm -rf /Library/Security/PolicyBanner.rtfd||exit"
+  - Under Restart Options select restart immediately
+Your policies will look something like this ![policies](images/policies.png)
+
+We have a script run once per computer at login that prompts for a computer name to rename the computer. Once the computer has rebooted, someone logs in locally to set the computer name. After that, configuration is complete.
